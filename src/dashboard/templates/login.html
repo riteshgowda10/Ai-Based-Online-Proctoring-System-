@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRJ 137 Proctoring System - Portal Gateway</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-card {
+            background: rgba(10, 15, 30, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        @keyframes glow-pulse-cyan {
+            0%, 100% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.25); }
+            50% { box-shadow: 0 0 45px rgba(20, 184, 166, 0.55); }
+        }
+        @keyframes glow-pulse-violet {
+            0%, 100% { box-shadow: 0 0 25px rgba(139, 92, 246, 0.25); }
+            50% { box-shadow: 0 0 45px rgba(217, 70, 239, 0.55); }
+        }
+        .glow-box-cyan {
+            animation: glow-pulse-cyan 4s infinite ease-in-out;
+        }
+        .glow-box-violet {
+            animation: glow-pulse-violet 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-[#070b14] text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-white relative overflow-x-hidden">
+
+    <!-- Background Ambient Glowing Orbs -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Header -->
+    <header class="glass-card border-b border-cyan-500/20 px-6 py-4 shadow-2xl relative z-20">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 via-teal-500 to-emerald-500 flex items-center justify-center text-slate-950 shadow-lg shadow-cyan-500/30 font-black text-2xl tracking-tighter">
+                    137
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black bg-gradient-to-r from-white via-cyan-200 to-emerald-300 bg-clip-text text-transparent tracking-wide">
+                        PRJ 137 PROCTORING SYSTEM
+                    </h1>
+                    <p class="text-xs text-cyan-400 font-bold tracking-wider uppercase">Next-Gen AI Examination & Telemetry Portal</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="openRegistrationModal()" class="px-4 py-2.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg shadow-emerald-500/30 transition flex items-center gap-2 border border-emerald-300/40 transform hover:scale-105">
+                    <i class="fa-solid fa-user-plus text-sm"></i> Register Student Candidate
+                </button>
+                <div class="text-xs text-slate-300 font-mono bg-slate-900/90 px-3.5 py-2 rounded-xl border border-cyan-500/30 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="text-emerald-400 font-bold">SYSTEM ACTIVE</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container: Dual Separated Login Portals -->
+    <main class="flex-1 max-w-5xl mx-auto w-full p-6 flex flex-col justify-center my-6 relative z-10">
+
+        <div class="text-center mb-10 space-y-3">
+            <span class="px-4 py-1.5 rounded-full text-xs font-black bg-cyan-500/10 text-cyan-300 border border-cyan-500/40 uppercase tracking-widest shadow-inner">
+                ⚡ Secure Examination Gateway
+            </span>
+            <h2 class="text-4xl font-black text-white tracking-tight">Select Authentication Portal</h2>
+            <p class="text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
+                Log in as a candidate to begin your computer-based evaluation or access the proctor administration console.
+            </p>
+        </div>
+
+        <!-- Portal Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <!-- Card 1: Student Candidate Portal (Emerald & Cyan Theme) -->
+            <div class="glass-card border border-cyan-500/30 rounded-3xl p-8 shadow-2xl hover:border-cyan-400/80 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group glow-box-cyan">
+                <div class="absolute -top-12 -right-12 w-48 h-48 bg-cyan-500/15 rounded-full blur-3xl group-hover:bg-cyan-500/30 transition"></div>
+
+                <div class="space-y-5 relative z-10">
+                    <div class="flex items-center justify-between">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 to-teal-600 text-slate-950 flex items-center justify-center text-2xl font-black shadow-lg shadow-cyan-500/40">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 rounded-full font-bold text-[10px] uppercase tracking-wider">
+                            Candidate Portal
+                        </span>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-black text-white">Student Examination Portal</h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">Access CBT Questions, MCQs, and Multi-Language Coding Sandbox</p>
+                    </div>
+
+                    <!-- Student Login Form -->
+                    <form onsubmit="handleLogin(event, 'student')" class="space-y-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1.5">Student Roll No / ID:</label>
+                            <input type="text" id="student-id" value="STUDENT_001" required placeholder="e.g. STUDENT_001" class="w-full bg-slate-950/90 border border-cyan-900/80 rounded-xl px-4 py-3 text-xs text-cyan-200 focus:outline-none focus:border-cyan-400 font-mono transition shadow-inner">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1.5">Exam Passcode:</label>
+                            <input type="password" id="student-pass" value="123456" required placeholder="••••••" class="w-full bg-slate-950/90 border border-cyan-900/80 rounded-xl px-4 py-3 text-xs text-cyan-200 focus:outline-none focus:border-cyan-400 font-mono transition shadow-inner">
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-black rounded-xl text-xs shadow-xl shadow-cyan-500/30 transition flex items-center justify-center gap-2 mt-4 transform hover:scale-[1.02]">
+                            <i class="fa-solid fa-right-to-bracket text-sm"></i> Login & Launch Student Verification
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Quick Helper -->
+                <div class="mt-6 pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] text-slate-400 relative z-10">
+                    <span>Default Student: <code class="text-cyan-300 font-mono font-bold">STUDENT_001 / 123456</code></span>
+                    <button onclick="autofillStudent()" class="text-cyan-400 hover:text-cyan-300 font-bold underline">Autofill</button>
+                </div>
+            </div>
+
+            <!-- Card 2: Admin Proctor Portal (Violet & Magenta Theme) -->
+            <div class="glass-card border border-violet-500/30 rounded-3xl p-8 shadow-2xl hover:border-violet-400/80 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group glow-box-violet">
+                <div class="absolute -top-12 -right-12 w-48 h-48 bg-violet-500/15 rounded-full blur-3xl group-hover:bg-violet-500/30 transition"></div>
+
+                <div class="space-y-5 relative z-10">
+                    <div class="flex items-center justify-between">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white flex items-center justify-center text-2xl font-black shadow-lg shadow-violet-500/40">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-violet-500/20 text-violet-300 border border-violet-500/40 rounded-full font-bold text-[10px] uppercase tracking-wider">
+                            Proctor Admin Access
+                        </span>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-black text-white">Admin Proctor Dashboard</h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">Monitor Live AI Telemetry, 3D Head Pose, Malpractice Logs & Interventions</p>
+                    </div>
+
+                    <!-- Admin Login Form -->
+                    <form onsubmit="handleLogin(event, 'admin')" class="space-y-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1.5">Admin Username:</label>
+                            <input type="text" id="admin-user" value="admin" required placeholder="admin" class="w-full bg-slate-950/90 border border-violet-900/80 rounded-xl px-4 py-3 text-xs text-violet-200 focus:outline-none focus:border-violet-400 font-mono transition shadow-inner">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1.5">Password:</label>
+                            <input type="password" id="admin-pass" value="admin123" required placeholder="••••••••" class="w-full bg-slate-950/90 border border-violet-900/80 rounded-xl px-4 py-3 text-xs text-violet-200 focus:outline-none focus:border-violet-400 font-mono transition shadow-inner">
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-black rounded-xl text-xs shadow-xl shadow-violet-600/30 transition flex items-center justify-center gap-2 mt-4 transform hover:scale-[1.02]">
+                            <i class="fa-solid fa-shield-halved text-sm"></i> Login as Admin Proctor
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Quick Helper -->
+                <div class="mt-6 pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] text-slate-400 relative z-10">
+                    <span>Default Admin: <code class="text-violet-300 font-mono font-bold">admin / admin123</code></span>
+                    <button onclick="autofillAdmin()" class="text-violet-400 hover:text-violet-300 font-bold underline">Autofill</button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Student Registration Modal -->
+    <div id="register-modal" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-xl z-50 flex items-center justify-center p-4">
+        <div class="glass-card border-2 border-emerald-500/50 rounded-3xl p-7 max-w-lg w-full shadow-2xl space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-slate-950 flex items-center justify-center text-xl font-black shadow-lg shadow-emerald-500/40">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-black text-white">Student Registration</h3>
+                        <p class="text-xs text-slate-400">Register candidate credentials into PRJ 137 Database</p>
+                    </div>
+                </div>
+                <button onclick="closeRegistrationModal()" class="text-slate-400 hover:text-white text-xl px-2 transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="handleRegistration(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">Full Candidate Name:</label>
+                    <input type="text" id="reg-name" required placeholder="e.g. Alex Morgan" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-400 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">Student Roll No / ID:</label>
+                    <input type="text" id="reg-id" required placeholder="e.g. STUDENT_002" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-cyan-300 focus:outline-none focus:border-emerald-400 font-mono transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">Course / Paper Name:</label>
+                    <input type="text" id="reg-course" value="CS 137 - Algorithmic Logic" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-400 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">Exam Passcode:</label>
+                    <input type="password" id="reg-pass" value="123456" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-cyan-300 focus:outline-none focus:border-emerald-400 font-mono transition">
+                </div>
+
+                <div class="pt-3">
+                    <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black rounded-xl text-xs shadow-xl shadow-emerald-500/30 transition flex items-center justify-center gap-2 transform hover:scale-[1.02]">
+                        <i class="fa-solid fa-check-circle text-base"></i> Complete Registration & Proceed to Setup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass-card border-t border-cyan-500/20 px-6 py-4 text-center text-xs text-slate-400 relative z-20">
+        PRJ 137 Proctoring System &copy; 2026. Official Computer-Based Examination Portal.
+    </footer>
+
+    <!-- Scripting for Login & Registration -->
+    <script>
+        function autofillStudent() {
+            document.getElementById('student-id').value = 'STUDENT_001';
+            document.getElementById('student-pass').value = '123456';
+        }
+
+        function autofillAdmin() {
+            document.getElementById('admin-user').value = 'admin';
+            document.getElementById('admin-pass').value = 'admin123';
+        }
+
+        function openRegistrationModal() {
+            document.getElementById('register-modal').classList.remove('hidden');
+        }
+
+        function closeRegistrationModal() {
+            document.getElementById('register-modal').classList.add('hidden');
+        }
+
+        async function handleLogin(e, role) {
+            e.preventDefault();
+            let username = (role === 'student') ? document.getElementById('student-id').value : document.getElementById('admin-user').value;
+            let password = (role === 'student') ? document.getElementById('student-pass').value : document.getElementById('admin-pass').value;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ role: role, username: username, password: password })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    window.location.href = data.redirect;
+                } else {
+                    alert("Invalid Credentials: " + (data.message || "Please check details"));
+                }
+            } catch(err) {
+                alert("Login Error: " + err);
+            }
+        }
+
+        async function handleRegistration(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const id = document.getElementById('reg-id').value;
+            const course = document.getElementById('reg-course').value;
+            const pass = document.getElementById('reg-pass').value;
+
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: name, id: id, course: course, password: pass })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    alert("Registration Successful! Redirecting to System Check & Instructions...");
+                    window.location.href = data.redirect || '/instructions';
+                }
+            } catch(err) {
+                alert("Registration Failed: " + err);
+            }
+        }
+    </script>
+</body>
+</html>

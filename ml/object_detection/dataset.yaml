@@ -1,0 +1,12 @@
+# ExamGuard AI - Object Detection Dataset Configuration
+path: C:/Users/roope/.gemini/antigravity/scratch/online-exam-proctor/dataset
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: person
+  1: cell_phone
+  2: laptop
+  3: book
+  4: earphone

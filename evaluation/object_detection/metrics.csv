@@ -1,0 +1,6 @@
+class_id,class_name,precision,recall,f1_score,map50
+0,person,0.0036,1.0,0.0072,0.4243
+1,cell_phone,0.0,0.0,0.0,0.0
+2,laptop,0.0,0.0,0.0,0.0
+3,book,0.0,0.0,0.0,0.0
+4,earphone,0.0,0.0,0.0,0.0

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRJ 137 Proctoring System - Admin & Proctor Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .animate-alert {
+            animation: pulse-red 1.2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#070b14] text-slate-100 font-sans min-h-screen relative overflow-x-hidden">
+
+    <!-- Ambient Glow Orbs -->
+    <div class="fixed top-0 right-1/3 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Header -->
+    <header class="glass-card border-b border-purple-500/20 px-6 py-4 flex items-center justify-between shadow-xl relative z-20">
+        <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 font-extrabold text-xl">
+                137
+            </div>
+            <div>
+                <h1 class="text-xl font-extrabold bg-gradient-to-r from-white via-indigo-200 to-pink-300 bg-clip-text text-transparent tracking-wide">
+                    PRJ 137 Proctoring Dashboard
+                </h1>
+                <p class="text-xs text-indigo-400 font-medium">Next-Gen 2026 AI Vision Telemetry & Live Proctor Interventions</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="/exam" target="_blank" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-indigo-500/20 border border-indigo-400/30 transition flex items-center gap-2">
+                <i class="fa-solid fa-laptop-code text-sm"></i> Launch Candidate CBT Exam Portal
+            </a>
+            <span id="system-status-badge" class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                Engine Active
+            </span>
+            <a href="/login" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition border border-slate-700 flex items-center gap-1.5">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
+            <span class="text-xs text-slate-400 font-mono" id="clock">--:--:--</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="p-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Left 2 Columns: Video Feed & Realtime Analytics -->
+        <section class="lg:col-span-2 space-y-6">
+
+            <!-- Video Monitor Container -->
+            <div class="glass-card border border-indigo-500/30 rounded-2xl overflow-hidden shadow-2xl">
+                <div class="bg-slate-900/90 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2 text-sm font-bold text-slate-200">
+                        <i class="fa-solid fa-video text-indigo-400"></i>
+                        Candidate Live AI Vision Feed (3D Head Pose & Multi-Face Overlay)
+                    </div>
+                    <div class="flex items-center gap-2 text-xs">
+                        <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">1280 x 720 @ 30fps</span>
+                        <span class="px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800 font-mono font-bold">2026 AI LIVE</span>
+                    </div>
+                </div>
+
+                <div class="relative bg-black flex items-center justify-center min-h-[420px] aspect-video">
+                    <img id="video-stream" src="/video_feed" alt="Candidate Video Feed" 
+                         class="w-full h-full object-cover"
+                         onerror="this.style.display='none'; document.getElementById('video-placeholder').style.display='flex';">
+                    
+                    <div id="video-placeholder" class="hidden flex-col items-center justify-center p-8 text-center text-slate-500">
+                        <i class="fa-solid fa-camera-slash text-4xl mb-3"></i>
+                        <p class="text-sm">Webcam Stream Offline or Stopped.</p>
+                        <p class="text-xs text-slate-600 mt-1">Click "Start Engine" to initialize AI vision feed.</p>
+                    </div>
+
+                    <!-- Overlay Alert Banner -->
+                    <div id="alert-banner" class="hidden absolute top-4 left-4 right-4 bg-red-600/90 text-white px-4 py-2.5 rounded-xl shadow-lg border border-red-500 flex items-center justify-between animate-alert">
+                        <div class="flex items-center gap-2 text-sm font-semibold">
+                            <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                            <span id="alert-banner-text">Malpractice Violation Detected</span>
+                        </div>
+                        <span class="text-xs bg-red-950/80 px-2.5 py-1 rounded font-mono border border-red-700 uppercase">PRJ 137 ALERT</span>
+                    </div>
+                </div>
+
+                <!-- Video Controls & Action Bar -->
+                <div class="p-4 bg-slate-900/90 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <button id="btn-start" onclick="startProctoring()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl text-xs shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> Start Engine
+                        </button>
+                        <button id="btn-stop" onclick="stopProctoring()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-medium rounded-xl text-xs shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-square"></i> Stop Engine
+                        </button>
+                    </div>
+                    <div>
+                        <button id="btn-report" onclick="generateReport()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs shadow-lg shadow-indigo-500/20 transition flex items-center gap-2">
+                            <i class="fa-solid fa-file-pdf"></i> Export Integrity Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Primary Indicators & Precision Risk Score -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="glass-card border border-slate-800 p-4 rounded-2xl shadow-xl">
+                    <div class="text-xs text-slate-400 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-shield-heart text-emerald-400"></i> Candidate Integrity Index
+                    </div>
+                    <div class="text-xl font-extrabold text-emerald-400" id="stat-integrity">95%</div>
+                </div>
+                <div class="glass-card border border-slate-800 p-4 rounded-2xl shadow-xl">
+                    <div class="text-xs text-slate-400 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-eye text-sky-400"></i> 3D Head Pose
+                    </div>
+                    <div class="text-sm font-bold text-white" id="stat-headpose">Center</div>
+                </div>
+                <div class="glass-card border border-slate-800 p-4 rounded-2xl shadow-xl">
+                    <div class="text-xs text-slate-400 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-window-restore text-amber-400"></i> Tab Switches
+                    </div>
+                    <div class="text-xl font-extrabold text-white" id="stat-tab-switches">0</div>
+                </div>
+                <div class="glass-card border border-slate-800 p-4 rounded-2xl shadow-xl">
+                    <div class="text-xs text-slate-400 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-shield-virus text-rose-400"></i> Malpractice Risk
+                    </div>
+                    <div class="text-lg font-bold text-emerald-400" id="stat-risk">LOW (5%)</div>
+                </div>
+            </div>
+
+            <!-- Secondary Telemetry Row (Phone Risk, Copy, Screenshot, Multi-Person) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="glass-card border border-slate-800 p-3.5 rounded-2xl shadow-xl">
+                    <div class="text-xs text-slate-400 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-mobile-screen-button text-red-400"></i> Off-Screen Phone Risk
+                    </div>
+                    <div class="text-xs font-bold text-white" id="stat-phone-risk">None Detected</div>
+                </div>
+                <div class="glass-card border border-slate-800 p-3.5 rounded-2xl shadow-xl">
+                    <div class="text-xs text-slate-400 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-users-slash text-rose-400"></i> Multi-Person Intrusions
+                    </div>
+                    <div class="text-xs font-bold text-white" id="stat-multi-person">0 Detected</div>
+                </div>
+                <div class="glass-card border border-slate-800 p-3.5 rounded-2xl shadow-xl">
+                    <div class="text-xs text-slate-400 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-copy text-purple-400"></i> Copy / Paste Blocks
+                    </div>
+                    <div class="text-xs font-bold text-white" id="stat-copy">0 Blocked</div>
+                </div>
+                <div class="glass-card border border-slate-800 p-3.5 rounded-2xl shadow-xl">
+                    <div class="text-xs text-slate-400 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-camera text-pink-400"></i> Screenshot Intercepts
+                    </div>
+                    <div class="text-xs font-bold text-white" id="stat-screenshot">0 Blocked</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Right Column: Live Proctor Intervention Panel & Violation Feed -->
+        <section class="space-y-6">
+
+            <!-- Proctor Remote Intervention Controls Card -->
+            <div class="glass-card border border-indigo-500/30 rounded-2xl p-5 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-indigo-400"></i>
+                        Proctor Live Interventions
+                    </h3>
+                    <span id="session-status-badge" class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-mono rounded-full font-bold border border-emerald-500/30">
+                        SESSION ACTIVE
+                    </span>
+                </div>
+
+                <div class="space-y-2.5">
+                    <!-- Send Broadcast Warning -->
+                    <button onclick="openBroadcastModal()" class="w-full py-2.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2 border border-amber-400/30">
+                        <i class="fa-solid fa-bullhorn"></i> Send Warning Alert to Candidate
+                    </button>
+
+                    <!-- Remote Pause / Resume Toggle -->
+                    <button id="btn-pause-toggle" onclick="togglePauseSession()" class="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2 border border-indigo-400/30">
+                        <i class="fa-solid fa-pause"></i> Pause Candidate Exam Session
+                    </button>
+
+                    <!-- Remote Terminate Exam -->
+                    <button onclick="terminateSession()" class="w-full py-2.5 bg-gradient-to-r from-rose-700 to-red-700 hover:from-rose-600 hover:to-red-600 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2 border border-rose-500/30">
+                        <i class="fa-solid fa-power-off"></i> Terminate Exam Session
+                    </button>
+                </div>
+            </div>
+
+            <!-- Explainable Risk & Detector Health Panel -->
+            <div class="glass-card border border-purple-500/30 rounded-2xl p-5 shadow-2xl space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                    <h3 class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-cyan-400"></i> Explainable Risk Factors
+                    </h3>
+                    <span id="session-id-tag" class="px-2 py-0.5 rounded bg-slate-900 border border-cyan-500/30 text-cyan-300 font-mono text-[10px]">EG-2026-09-23-000001</span>
+                </div>
+
+                <div id="risk-contributors-list" class="space-y-1.5 text-xs">
+                    <div class="text-slate-400 text-[11px] py-1">No risk factor spikes detected. Base score: 5%</div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-800/80">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">AI Engine Health</span>
+                    <div class="grid grid-cols-3 gap-1.5 text-[10px] font-mono">
+                        <span class="px-2 py-1 bg-slate-950 border border-emerald-500/30 text-emerald-400 rounded">FACE: ONLINE</span>
+                        <span class="px-2 py-1 bg-slate-950 border border-emerald-500/30 text-emerald-400 rounded">GAZE: ONLINE</span>
+                        <span class="px-2 py-1 bg-slate-950 border border-emerald-500/30 text-emerald-400 rounded">YOLO: ONLINE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-time Alerts & Violation Log Feed -->
+            <div class="glass-card border border-slate-800 rounded-2xl p-5 shadow-2xl flex flex-col h-[320px]">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+                    <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-indigo-400"></i>
+                        PRJ 137 Alert Log Feed
+                    </h3>
+                    <span id="alert-count-badge" class="px-2 py-0.5 bg-slate-800 text-slate-300 text-xs rounded-full font-mono">0 events</span>
+                </div>
+
+                <!-- Alert Items Stream -->
+                <div id="alert-feed" class="flex-1 overflow-y-auto space-y-2 pr-1 text-xs">
+                    <div class="text-slate-500 text-center py-8">
+                        <i class="fa-regular fa-bell text-2xl mb-2 block"></i>
+                        No violations logged. System active.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Status Card -->
+            <div id="report-notification" class="hidden bg-indigo-950/80 border border-indigo-700 rounded-2xl p-4 text-xs text-indigo-200 flex items-center justify-between">
+                <div>
+                    <p class="font-semibold text-white mb-0.5">Integrity Report Generated</p>
+                    <p id="report-file-text" class="text-indigo-300">report_STUDENT_001.html</p>
+                </div>
+                <a id="report-download-link" href="#" target="_blank" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition shadow flex items-center gap-1">
+                    <i class="fa-solid fa-download"></i> Download
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal: Broadcast Warning to Candidate -->
+    <div id="broadcast-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-card border-2 border-amber-500/50 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg border border-amber-500/30">
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-white">Broadcast Warning</h3>
+                </div>
+                <button onclick="closeBroadcastModal()" class="text-slate-400 hover:text-white px-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-xs font-semibold text-slate-300">Warning Message:</label>
+                <textarea id="broadcast-text-input" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-amber-400" placeholder="e.g. Please look straight at your screen and maintain silence!"></textarea>
+            </div>
+
+            <button onclick="sendBroadcastWarning()" class="w-full py-2.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold rounded-xl text-xs shadow-lg transition">
+                Send Warning to Candidate Screen
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripting for Realtime Updates & Control -->
+    <script>
+        function updateClock() {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        let isPaused = false;
+
+        async function fetchStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                
+                document.getElementById('stat-integrity').innerText = `${data.candidate_integrity_index || 95}%`;
+                document.getElementById('stat-headpose').innerText = data.head_pose || 'Center';
+                document.getElementById('stat-tab-switches').innerText = data.tab_switches || 0;
+                document.getElementById('stat-copy').innerText = `${data.copy_attempts || 0} Blocked`;
+                document.getElementById('stat-screenshot').innerText = `${data.screenshot_attempts || 0} Blocked`;
+                document.getElementById('stat-multi-person').innerText = `${data.multi_person_warnings || 0} Detected`;
+                document.getElementById('stat-phone-risk').innerText = data.secondary_device_risk ? 'HIGH RISK' : 'None Detected';
+                document.getElementById('stat-phone-risk').className = data.secondary_device_risk ? 'text-xs font-bold text-rose-400' : 'text-xs font-bold text-emerald-400';
+                
+                const riskElem = document.getElementById('stat-risk');
+                const riskVal = data.cheating_probability || 0;
+                const level = data.risk_level || 'LOW';
+
+                if(data.session_id) {
+                    document.getElementById('session-id-tag').innerText = data.session_id;
+                }
+
+                // Render explainable risk contributors
+                const contribList = document.getElementById('risk-contributors-list');
+                if(data.risk_contributors && data.risk_contributors.length > 0) {
+                    contribList.innerHTML = data.risk_contributors.map(c => `
+                        <div class="flex items-center justify-between bg-slate-950/80 px-2.5 py-1.5 rounded border border-rose-500/20 text-xs">
+                            <span class="text-slate-200 font-medium">${c.event}</span>
+                            <span class="text-rose-400 font-bold font-mono">+${c.delta}%</span>
+                        </div>
+                    `).join('');
+                } else {
+                    contribList.innerHTML = `<div class="text-slate-400 text-[11px] py-1"><i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Normal activity. Base risk: 5%</div>`;
+                }
+
+                riskElem.innerText = `${level} (${riskVal}%)`;
+                if(level === 'CRITICAL' || level === 'HIGH') {
+                    riskElem.className = 'text-lg font-bold text-rose-400';
+                } else if(level === 'MODERATE') {
+                    riskElem.className = 'text-lg font-bold text-amber-400';
+                } else {
+                    riskElem.className = 'text-lg font-bold text-emerald-400';
+                }
+
+                // Session status badge & pause button update
+                const sessionBadge = document.getElementById('session-status-badge');
+                const btnPause = document.getElementById('btn-pause-toggle');
+                if (data.session_status === 'PAUSED') {
+                    isPaused = true;
+                    sessionBadge.innerText = 'SESSION PAUSED';
+                    sessionBadge.className = 'px-2.5 py-0.5 bg-amber-500/20 text-amber-400 text-[10px] font-mono rounded-full font-bold border border-amber-500/30';
+                    btnPause.innerHTML = '<i class="fa-solid fa-play"></i> Resume Candidate Session';
+                } else if (data.session_status === 'TERMINATED') {
+                    sessionBadge.innerText = 'SESSION TERMINATED';
+                    sessionBadge.className = 'px-2.5 py-0.5 bg-rose-500/20 text-rose-400 text-[10px] font-mono rounded-full font-bold border border-rose-500/30';
+                } else {
+                    isPaused = false;
+                    sessionBadge.innerText = 'SESSION ACTIVE';
+                    sessionBadge.className = 'px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-mono rounded-full font-bold border border-emerald-500/30';
+                    btnPause.innerHTML = '<i class="fa-solid fa-pause"></i> Pause Candidate Exam Session';
+                }
+            } catch (err) {
+                console.error("Error fetching stats:", err);
+            }
+        }
+
+        async function fetchAlerts() {
+            try {
+                const response = await fetch('/api/alerts');
+                const alerts = await response.json();
+                
+                const feed = document.getElementById('alert-feed');
+                document.getElementById('alert-count-badge').innerText = `${alerts.length} events`;
+                
+                if (alerts.length === 0) {
+                    feed.innerHTML = `
+                        <div class="text-slate-500 text-center py-8">
+                            <i class="fa-regular fa-bell text-2xl mb-2 block"></i>
+                            No violations logged. System active.
+                        </div>`;
+                    document.getElementById('alert-banner').classList.add('hidden');
+                    return;
+                }
+
+                feed.innerHTML = alerts.map((alert, idx) => {
+                    let isHighSeverity = alert.includes('FACE_DISAPPEARED') || alert.includes('MULTIPLE_FACES') || alert.includes('OBJECT') || alert.includes('TAB_SWITCH') || alert.includes('SCREENSHOT');
+                    let badgeColor = isHighSeverity ? 'bg-red-500/20 text-red-400 border-red-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+                    return `
+                        <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-2">
+                            <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold border ${badgeColor} uppercase tracking-wider mt-0.5">
+                                Alert
+                            </span>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-slate-200 font-mono text-[11px] break-words">${alert}</p>
+                            </div>
+                        </div>
+                    `;
+                }).reverse().join('');
+
+                const latestAlert = alerts[alerts.length - 1];
+                if (latestAlert) {
+                    document.getElementById('alert-banner-text').innerText = latestAlert;
+                    document.getElementById('alert-banner').classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error("Error fetching alerts:", err);
+            }
+        }
+
+        function openBroadcastModal() {
+            document.getElementById('broadcast-modal').classList.remove('hidden');
+        }
+
+        function closeBroadcastModal() {
+            document.getElementById('broadcast-modal').classList.add('hidden');
+        }
+
+        async function sendBroadcastWarning() {
+            const msg = document.getElementById('broadcast-text-input').value.trim();
+            if (!msg) return;
+            await fetch('/api/proctor/send_message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg })
+            });
+            alert("Broadcast warning sent to candidate screen!");
+            closeBroadcastModal();
+        }
+
+        async function togglePauseSession() {
+            const action = isPaused ? 'resume' : 'pause';
+            await fetch('/api/proctor/pause_session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: action })
+            });
+            fetchStats();
+        }
+
+        async function terminateSession() {
+            if (confirm("Are you sure you want to TERMINATE the candidate's exam session?")) {
+                await fetch('/api/proctor/terminate_session', { method: 'POST' });
+                fetchStats();
+            }
+        }
+
+        async function startProctoring() {
+            await fetch('/api/start_proctoring', { method: 'POST' });
+            document.getElementById('video-stream').src = '/video_feed?' + new Date().getTime();
+            document.getElementById('video-stream').style.display = 'block';
+            document.getElementById('video-placeholder').style.display = 'none';
+        }
+
+        async function stopProctoring() {
+            await fetch('/api/stop_proctoring', { method: 'POST' });
+            document.getElementById('video-stream').style.display = 'none';
+            document.getElementById('video-placeholder').style.display = 'flex';
+        }
+
+        async function generateReport() {
+            const btn = document.getElementById('btn-report');
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Generating...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/generate_report', { method: 'POST' });
+                const res = await response.json();
+                
+                if(res.status === 'success') {
+                    document.getElementById('report-notification').classList.remove('hidden');
+                    document.getElementById('report-file-text').innerText = res.filename;
+                    document.getElementById('report-download-link').href = res.download_url;
+                }
+            } catch(e) {
+                alert("Failed to generate report: " + e);
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-file-pdf"></i> Export Integrity Report';
+                btn.disabled = false;
+            }
+        }
+
+        setInterval(fetchStats, 2000);
+        setInterval(fetchAlerts, 2000);
+        fetchStats();
+        fetchAlerts();
+    </script>
+</body>
+</html>

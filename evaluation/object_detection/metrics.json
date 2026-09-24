@@ -1,0 +1,59 @@
+{
+  "evaluated_at": "2026-09-24T20:25:53.696456",
+  "model_weights": "C:\\Users\\roope\\.gemini\\antigravity\\scratch\\online-exam-proctor\\models\\object_detection\\best.pt",
+  "dataset_split": "val",
+  "precision": 0.0007,
+  "recall": 0.2,
+  "f1_score": 0.0014,
+  "map50": 0.0849,
+  "map50_95": 0.0445,
+  "speed_ms": {
+    "preprocess_ms": 2.71,
+    "inference_latency_ms": 108.29,
+    "postprocess_ms": 117.02,
+    "total_latency_ms": 228.02
+  },
+  "fps": 4.39,
+  "per_class_metrics": [
+    {
+      "class_id": 0,
+      "class_name": "person",
+      "precision": 0.0036,
+      "recall": 1.0,
+      "f1_score": 0.0072,
+      "map50": 0.4243
+    },
+    {
+      "class_id": 1,
+      "class_name": "cell_phone",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "map50": 0.0
+    },
+    {
+      "class_id": 2,
+      "class_name": "laptop",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "map50": 0.0
+    },
+    {
+      "class_id": 3,
+      "class_name": "book",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "map50": 0.0
+    },
+    {
+      "class_id": 4,
+      "class_name": "earphone",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "map50": 0.0
+    }
+  ]
+}

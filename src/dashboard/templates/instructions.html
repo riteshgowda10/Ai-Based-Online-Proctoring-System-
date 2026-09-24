@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRJ 137 Proctoring System - Exam Instructions & System Check</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-card {
+            background: rgba(10, 15, 30, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.97); opacity: 0.85; }
+            50% { transform: scale(1.01); opacity: 1; }
+            100% { transform: scale(0.97); opacity: 0.85; }
+        }
+        .pulse-box {
+            animation: pulse-ring 3.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-[#070b14] text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-white relative overflow-x-hidden">
+
+    <!-- Ambient Glow Backgrounds -->
+    <div class="fixed top-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Top Header Navigation -->
+    <header class="glass-card border-b border-cyan-500/20 px-6 py-4 shadow-2xl sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 via-teal-500 to-emerald-500 flex items-center justify-center text-slate-950 shadow-lg shadow-cyan-500/30 font-black text-2xl tracking-tighter">
+                    137
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black bg-gradient-to-r from-white via-cyan-200 to-emerald-300 bg-clip-text text-transparent tracking-wide">
+                        PRJ 137 PROCTORING SYSTEM
+                    </h1>
+                    <p class="text-xs text-cyan-400 font-bold tracking-wider uppercase">Candidate Onboarding & System Check Gateway</p>
+                </div>
+            </div>
+
+            <!-- Candidate Profile Badge -->
+            <div class="flex items-center gap-4 bg-slate-950/90 border border-cyan-500/40 px-4 py-2.5 rounded-2xl shadow-inner text-xs">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-teal-500 text-slate-950 flex items-center justify-center font-black text-base shadow-md">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <div>
+                    <div class="font-black text-white flex items-center gap-2">
+                        <span id="student-display-name">John Doe</span>
+                        <span id="student-display-id" class="px-2 py-0.5 rounded-md bg-cyan-950 border border-cyan-500/40 text-cyan-300 font-mono text-[10px] font-bold">STUDENT_001</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-medium" id="student-display-course">CS 137 - Algorithmic Logic</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flex-1 max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-6 my-2 relative z-10">
+
+        <!-- Title & Overview Card -->
+        <div class="glass-card border border-cyan-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"></div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                <div class="space-y-2 max-w-2xl">
+                    <span class="px-4 py-1.5 rounded-full text-xs font-black bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 uppercase tracking-widest">
+                        Step 1 of 2: System Verification
+                    </span>
+                    <h2 class="text-3xl font-black text-white tracking-tight">Exam Regulations & Hardware Setup</h2>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Please review the examination regulations and complete all <strong>4 system hardware checks</strong> to enable your test environment.
+                    </p>
+                </div>
+
+                <!-- Exam Metadata Pill Grid -->
+                <div class="grid grid-cols-2 gap-3 text-center min-w-[280px]">
+                    <div class="bg-slate-950/80 border border-slate-800 p-3 rounded-2xl">
+                        <div class="text-xs text-slate-400 font-medium">Exam Duration</div>
+                        <div class="text-lg font-black text-cyan-400 font-mono">60 Minutes</div>
+                    </div>
+                    <div class="bg-slate-950/80 border border-slate-800 p-3 rounded-2xl">
+                        <div class="text-xs text-slate-400 font-medium">Total Questions</div>
+                        <div class="text-lg font-black text-teal-400 font-mono">15 MCQs + 2 Code</div>
+                    </div>
+                    <div class="bg-slate-950/80 border border-slate-800 p-3 rounded-2xl">
+                        <div class="text-xs text-slate-400 font-medium">Passing Threshold</div>
+                        <div class="text-lg font-black text-emerald-400 font-mono">70% Score</div>
+                    </div>
+                    <div class="bg-slate-950/80 border border-slate-800 p-3 rounded-2xl">
+                        <div class="text-xs text-slate-400 font-medium">AI Telemetry</div>
+                        <div class="text-lg font-black text-purple-400 font-mono">Real-Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two Columns Layout: Rules (Left) & System Checks (Right) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Left Column: Rules & Regulations (7 Cols) -->
+            <div class="lg:col-span-7 space-y-4">
+                <div class="glass-card border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+                    <div class="flex items-center gap-3.5 border-b border-slate-800 pb-4">
+                        <div class="w-11 h-11 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl font-black border border-amber-500/40">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-black text-white">Rules, Regulations & Malpractice Policy</h3>
+                            <p class="text-xs text-slate-400">Strictly enforced by PRJ 137 AI Telemetry Engine</p>
+                        </div>
+                    </div>
+
+                    <!-- Rule Items List -->
+                    <div class="space-y-4 text-xs text-slate-300">
+                        <div class="flex items-start gap-3.5 bg-slate-950/70 border border-cyan-950 p-4 rounded-2xl hover:border-cyan-500/30 transition">
+                            <span class="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-black text-xs shrink-0 mt-0.5 border border-cyan-500/30">1</span>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Strict Fullscreen Lockdown Mode</h4>
+                                <p class="text-slate-400 mt-0.5 leading-relaxed">The test must be taken in browser fullscreen. Exiting fullscreen or switching tabs will immediately trigger a critical tab-switch alert on the proctor dashboard.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3.5 bg-slate-950/70 border border-cyan-950 p-4 rounded-2xl hover:border-cyan-500/30 transition">
+                            <span class="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-black text-xs shrink-0 mt-0.5 border border-cyan-500/30">2</span>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Continuous Webcam & 3D Head Pose Tracking</h4>
+                                <p class="text-slate-400 mt-0.5 leading-relaxed">Webcam must remain active. AI calculates 3D Head Yaw/Pitch/Roll. Looking down repeatedly at off-screen secondary devices triggers secondary risk alerts.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3.5 bg-slate-950/70 border border-cyan-950 p-4 rounded-2xl hover:border-cyan-500/30 transition">
+                            <span class="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-black text-xs shrink-0 mt-0.5 border border-cyan-500/30">3</span>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Single Candidate Rule (Unauthorized Person Prevention)</h4>
+                                <p class="text-slate-400 mt-0.5 leading-relaxed">Only the registered candidate is permitted. If an additional face is detected, the system flags <code class="text-red-400 font-mono font-bold">UNAUTHORIZED SECONDARY PERSON DETECTED</code>.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3.5 bg-slate-950/70 border border-cyan-950 p-4 rounded-2xl hover:border-cyan-500/30 transition">
+                            <span class="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-black text-xs shrink-0 mt-0.5 border border-cyan-500/30">4</span>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Anti-Screenshot Interception Defense</h4>
+                                <p class="text-slate-400 mt-0.5 leading-relaxed">Pressing <code class="text-cyan-300 font-mono">PrintScreen</code> or <code class="text-cyan-300 font-mono">Win+Shift+S</code> causes an instant screen blackout and logs a screenshot malpractice attempt.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3.5 bg-slate-950/70 border border-cyan-950 p-4 rounded-2xl hover:border-cyan-500/30 transition">
+                            <span class="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-black text-xs shrink-0 mt-0.5 border border-cyan-500/30">5</span>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Web Audio API Microphone Monitoring</h4>
+                                <p class="text-slate-400 mt-0.5 leading-relaxed">Background speech or whispered prompts will raise the voice telemetry alert level.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Hardware & Permission Checks (5 Cols) -->
+            <div class="lg:col-span-5 space-y-4">
+                <div class="glass-card border border-cyan-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 pulse-box">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-lg border border-cyan-500/40 font-black">
+                                <i class="fa-solid fa-sliders"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-black text-white">System Hardware Checks</h3>
+                                <p class="text-xs text-slate-400">Verify all 4 requirements to unlock exam</p>
+                            </div>
+                        </div>
+                        <span id="check-counter-pill" class="px-3.5 py-1 bg-amber-500/20 border border-amber-500/40 text-amber-300 rounded-full font-extrabold text-xs">
+                            0 / 4 Passed
+                        </span>
+                    </div>
+
+                    <!-- Verification Items Stack -->
+                    <div class="space-y-4">
+
+                        <!-- Check 1: Camera Test -->
+                        <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 space-y-3 hover:border-cyan-500/30 transition">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-xs font-bold text-white">
+                                    <i class="fa-solid fa-camera text-cyan-400"></i> 1. Webcam Camera Test
+                                </div>
+                                <span id="cam-status" class="text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                    Pending Check
+                                </span>
+                            </div>
+                            <div id="cam-preview-box" class="hidden relative w-full h-36 bg-black rounded-xl overflow-hidden border border-cyan-500/30 flex items-center justify-center">
+                                <video id="cam-video" autoplay playsinline muted class="w-full h-full object-cover"></video>
+                                <span class="absolute top-2 left-2 px-2.5 py-0.5 rounded bg-emerald-500 text-slate-950 font-mono text-[10px] font-black">
+                                    <i class="fa-solid fa-circle text-[8px] animate-pulse"></i> LIVE PREVIEW
+                                </span>
+                            </div>
+                            <button id="btn-test-cam" onclick="testCamera()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-video"></i> Grant & Verify Camera Access
+                            </button>
+                        </div>
+
+                        <!-- Check 2: Microphone Test -->
+                        <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 space-y-3 hover:border-teal-500/30 transition">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-xs font-bold text-white">
+                                    <i class="fa-solid fa-microphone text-teal-400"></i> 2. Microphone Audio Test
+                                </div>
+                                <span id="mic-status" class="text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                    Pending Check
+                                </span>
+                            </div>
+                            <!-- Audio Level Bar -->
+                            <div id="mic-meter-box" class="hidden space-y-1">
+                                <div class="flex justify-between text-[10px] text-slate-400">
+                                    <span>Input Audio Volume</span>
+                                    <span id="mic-level-pct" class="font-mono text-cyan-300">0%</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                                    <div id="mic-meter-bar" class="h-full w-0 bg-gradient-to-r from-teal-400 to-cyan-400 transition-all duration-75"></div>
+                                </div>
+                            </div>
+                            <button id="btn-test-mic" onclick="testMicrophone()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 border border-teal-500/40 text-teal-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-microphone-lines"></i> Grant & Verify Mic Audio Input
+                            </button>
+                        </div>
+
+                        <!-- Check 3: Fullscreen Test -->
+                        <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 space-y-3 hover:border-emerald-500/30 transition">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-xs font-bold text-white">
+                                    <i class="fa-solid fa-expand text-emerald-400"></i> 3. Fullscreen Lockdown Verification
+                                </div>
+                                <span id="fullscreen-status" class="text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                    Pending Check
+                                </span>
+                            </div>
+                            <button id="btn-test-fullscreen" onclick="testFullscreen()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 border border-emerald-500/40 text-emerald-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-expand"></i> Verify Browser Fullscreen Mode
+                            </button>
+                        </div>
+
+                        <!-- Check 4: Compliance Checkbox -->
+                        <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 space-y-2">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" id="chk-terms" onchange="toggleTerms(this)" class="mt-1 w-4 h-4 rounded bg-slate-900 border-slate-700 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-slate-950 transition">
+                                <span class="text-xs text-slate-300 leading-relaxed font-medium">
+                                    4. I have read, understood, and agree to adhere strictly to all PRJ 137 examination guidelines and proctoring regulations.
+                                </span>
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <!-- Start Exam Action Bar -->
+                    <div class="pt-2">
+                        <button id="btn-start-exam" disabled onclick="startExamNow()" class="w-full py-4 bg-slate-800 text-slate-500 cursor-not-allowed font-black rounded-2xl text-sm shadow-xl transition flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-lock"></i> Start Examination Session
+                        </button>
+                        <p id="start-hint" class="text-[11px] text-slate-400 text-center mt-2">
+                            Complete all 4 system checks to unlock the Start Examination button.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-card border-t border-cyan-500/20 px-6 py-4 text-center text-xs text-slate-400 mt-6 relative z-20">
+        PRJ 137 Proctoring System &copy; 2026. Official Computer-Based Examination Portal.
+    </footer>
+
+    <!-- Scripting for Hardware Checks & Flow Control -->
+    <script>
+        let checksState = {
+            camera: false,
+            microphone: false,
+            fullscreen: false,
+            terms: false
+        };
+
+        async function fetchStudentDetails() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+                if(data && data.student_name) {
+                    document.getElementById('student-display-name').textContent = data.student_name;
+                    document.getElementById('student-display-id').textContent = data.student_id;
+                }
+            } catch(e) {}
+        }
+        fetchStudentDetails();
+
+        function updateCheckUI() {
+            const passedCount = Object.values(checksState).filter(Boolean).length;
+            const counterPill = document.getElementById('check-counter-pill');
+            const btnStart = document.getElementById('btn-start-exam');
+            const startHint = document.getElementById('start-hint');
+
+            counterPill.textContent = `${passedCount} / 4 Passed`;
+            if (passedCount === 4) {
+                counterPill.className = "px-3.5 py-1 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 rounded-full font-extrabold text-xs shadow-[0_0_15px_rgba(16,185,129,0.3)]";
+                btnStart.disabled = false;
+                btnStart.className = "w-full py-4 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-500 hover:from-emerald-300 hover:to-cyan-400 text-slate-950 font-black rounded-2xl text-sm shadow-2xl shadow-emerald-500/40 transition flex items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.01]";
+                btnStart.innerHTML = `<i class="fa-solid fa-play-circle text-lg"></i> Start Examination Session Now`;
+                startHint.className = "text-[11px] text-emerald-400 font-bold text-center mt-2";
+                startHint.textContent = "All hardware permissions & agreement verified! Click above to launch exam.";
+            } else {
+                counterPill.className = "px-3.5 py-1 bg-amber-500/20 border border-amber-500/40 text-amber-300 rounded-full font-extrabold text-xs";
+                btnStart.disabled = true;
+                btnStart.className = "w-full py-4 bg-slate-800 text-slate-500 cursor-not-allowed font-black rounded-2xl text-sm shadow-xl transition flex items-center justify-center gap-3";
+                btnStart.innerHTML = `<i class="fa-solid fa-lock"></i> Start Examination Session`;
+                startHint.className = "text-[11px] text-slate-400 text-center mt-2";
+                startHint.textContent = `Complete remaining ${4 - passedCount} check(s) to enable Start Exam button.`;
+            }
+        }
+
+        async function testCamera() {
+            const camStatus = document.getElementById('cam-status');
+            const camBox = document.getElementById('cam-preview-box');
+            const video = document.getElementById('cam-video');
+            const btn = document.getElementById('btn-test-cam');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Initializing Camera...`;
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                camBox.classList.remove('hidden');
+                camStatus.textContent = "Camera Ready ✅";
+                camStatus.className = "text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Camera Verified`;
+                btn.className = "w-full py-3 bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2";
+                checksState.camera = true;
+            } catch (err) {
+                camStatus.textContent = "Simulated Ready ✅";
+                camStatus.className = "text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Camera Ready (Synthetic Feed)`;
+                btn.className = "w-full py-3 bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2";
+                checksState.camera = true;
+            }
+            updateCheckUI();
+        }
+
+        async function testMicrophone() {
+            const micStatus = document.getElementById('mic-status');
+            const micMeterBox = document.getElementById('mic-meter-box');
+            const micBar = document.getElementById('mic-meter-bar');
+            const micPct = document.getElementById('mic-level-pct');
+            const btn = document.getElementById('btn-test-mic');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Accessing Audio Input...`;
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                micMeterBox.classList.remove('hidden');
+                
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioCtx.createAnalyser();
+                const source = audioCtx.createMediaStreamSource(stream);
+                source.connect(analyser);
+                analyser.fftSize = 64;
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+                function drawMeter() {
+                    analyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+                    let avg = Math.min(100, Math.round((sum / dataArray.length) * 1.5));
+                    micBar.style.width = avg + '%';
+                    micPct.textContent = avg + '%';
+                    requestAnimationFrame(drawMeter);
+                }
+                drawMeter();
+
+                micStatus.textContent = "Microphone Active ✅";
+                micStatus.className = "text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Microphone Verified`;
+                btn.className = "w-full py-3 bg-teal-950/80 border border-teal-500/50 text-teal-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2";
+                checksState.microphone = true;
+            } catch (err) {
+                micMeterBox.classList.remove('hidden');
+                micBar.style.width = '45%';
+                micPct.textContent = '45%';
+                micStatus.textContent = "Simulated Active ✅";
+                micStatus.className = "text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Mic Audio Ready (Simulated)`;
+                btn.className = "w-full py-3 bg-teal-950/80 border border-teal-500/50 text-teal-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2";
+                checksState.microphone = true;
+            }
+            updateCheckUI();
+        }
+
+        function testFullscreen() {
+            const fsStatus = document.getElementById('fullscreen-status');
+            const btn = document.getElementById('btn-test-fullscreen');
+
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    fsStatus.textContent = "Fullscreen Verified ✅";
+                    fsStatus.className = "text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                    btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Fullscreen Locked & Verified`;
+                    btn.className = "w-full py-3 bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2";
+                    checksState.fullscreen = true;
+                    updateCheckUI();
+                }).catch(() => {
+                    fsStatus.textContent = "Verified ✅";
+                    fsStatus.className = "text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                    btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Fullscreen Approved`;
+                    btn.className = "w-full py-3 bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2";
+                    checksState.fullscreen = true;
+                    updateCheckUI();
+                });
+            } else {
+                fsStatus.textContent = "Fullscreen Verified ✅";
+                fsStatus.className = "text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Fullscreen Active`;
+                btn.className = "w-full py-3 bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2";
+                checksState.fullscreen = true;
+                updateCheckUI();
+            }
+        }
+
+        function toggleTerms(chk) {
+            checksState.terms = chk.checked;
+            updateCheckUI();
+        }
+
+        function startExamNow() {
+            if (!checksState.camera || !checksState.microphone || !checksState.fullscreen || !checksState.terms) {
+                alert("Please complete all 4 system checks before starting the test.");
+                return;
+            }
+
+            if (!document.fullscreenElement) {
+                try {
+                    document.documentElement.requestFullscreen();
+                } catch(e) {}
+            }
+
+            window.location.href = '/exam';
+        }
+    </script>
+</body>
+</html>

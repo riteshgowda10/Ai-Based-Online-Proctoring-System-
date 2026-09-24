@@ -1,0 +1,46 @@
+# ExamGuard AI (PRJ 137) - Real-Time Inference Configuration
+
+device:
+  preferred: "cpu" # "cuda" or "cpu"
+  fallback: "cpu"
+
+frame_processing:
+  input_resolution: [1280, 720]
+  detection_resolution: [640, 640]
+  max_fps: 30
+  frame_skip_step: 2 # Process heavy detectors every N frames
+
+models:
+  object_detection:
+    weights: "models/yolov8n.pt"
+    confidence_threshold: 0.55
+    iou_threshold: 0.45
+    target_classes:
+      - person
+      - cell phone
+      - laptop
+      - book
+      
+  face_detection:
+    min_face_size: 40
+    thresholds: [0.6, 0.7, 0.7]
+    min_confidence: 0.80
+
+  identity_verification:
+    model: "InceptionResnetV1"
+    weights: "vggface2"
+    similarity_metric: "cosine"
+    similarity_threshold: 0.65 # Cosine similarity >= 0.65 denotes identity match
+
+  head_pose:
+    yaw_threshold_degrees: 25.0
+    pitch_down_threshold_degrees: -18.0
+    pitch_up_threshold_degrees: 20.0
+    roll_threshold_degrees: 20.0
+    smoothing_window: 5 # Moving average frames
+
+  gaze:
+    ear_blink_threshold: 0.22
+    horizontal_deviation_ratio: 0.20
+    vertical_deviation_ratio: 0.18
+    smoothing_window: 5

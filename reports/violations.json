@@ -1,0 +1,16 @@
+[
+  {
+    "type": "WINDOW_BLUR",
+    "timestamp": "20260924_202732_042318",
+    "metadata": {
+      "message": "Focus lost! Candidate switched away from examination window."
+    }
+  },
+  {
+    "type": "TAB_SWITCH",
+    "timestamp": "20260924_202732_093485",
+    "metadata": {
+      "message": "Tab Switch / Navigation away detected! (2 occurrence)"
+    }
+  }
+]

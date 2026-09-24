@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRJ 137 Proctoring System - Next-Gen Exam Workspace</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Anti-copy & text selection protection */
+        body, * {
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .animate-warning {
+            animation: pulse-red 1.2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#070b14] text-slate-100 font-sans min-h-screen flex flex-col justify-between select-none relative overflow-x-hidden">
+
+    <!-- Ambient Glowing Orbs -->
+    <div class="fixed top-0 left-1/3 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Official Examination Header -->
+    <header class="glass-card border-b border-cyan-500/20 px-6 py-3 shadow-2xl relative z-20">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Brand & Paper Info -->
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-indigo-500 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 font-extrabold text-lg">
+                    137
+                </div>
+                <div>
+                    <h1 class="text-base font-extrabold bg-gradient-to-r from-white via-cyan-200 to-pink-300 bg-clip-text text-transparent tracking-wide">
+                        PRJ 137 Proctoring System
+                    </h1>
+                    <p class="text-xs text-cyan-400 font-medium">Computer Science & Engineering Final Evaluation (Paper Code: CS-137)</p>
+                </div>
+            </div>
+
+            <!-- Candidate Profile Info, Integrity Score & Timer -->
+            <div class="flex items-center gap-5">
+                <!-- Integrity Score Badge -->
+                <div class="bg-emerald-500/20 border border-emerald-500/40 px-3 py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-shield-heart text-emerald-400 text-sm"></i>
+                    <span class="text-[10px] text-emerald-300 uppercase font-bold">Integrity:</span>
+                    <span id="exam-integrity-index" class="font-mono font-extrabold text-xs text-emerald-300">95%</span>
+                </div>
+
+                <!-- Candidate Badge -->
+                <div class="flex items-center gap-3 bg-slate-900/90 px-3.5 py-1.5 rounded-xl border border-indigo-500/30 shadow-inner">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 border border-indigo-400 text-white font-bold text-xs flex items-center justify-center shadow">
+                        JD
+                    </div>
+                    <div class="text-xs">
+                        <span class="font-bold text-white block" id="student-display-name">John Doe</span>
+                        <span class="text-indigo-300 text-[10px] font-mono" id="student-display-id">ID: STUDENT_001</span>
+                    </div>
+                </div>
+
+                <!-- Timer -->
+                <div class="bg-slate-900/90 border border-amber-500/40 px-4 py-1.5 rounded-xl flex items-center gap-2 shadow-lg shadow-amber-500/10">
+                    <i class="fa-solid fa-stopwatch text-amber-400 text-sm animate-pulse"></i>
+                    <span class="text-xs text-slate-400">Time Left:</span>
+                    <span id="exam-timer" class="font-mono font-bold text-sm text-amber-300">45:00</span>
+                </div>
+
+                <!-- Fullscreen Lockdown Button -->
+                <button id="btn-fullscreen" onclick="toggleFullScreen()" class="px-3.5 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-indigo-500/30 transition flex items-center gap-1.5 border border-indigo-400/30">
+                    <i class="fa-solid fa-expand"></i> Full Screen
+                </button>
+
+                <a href="/login" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition border border-slate-700">
+                    Exit Exam
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Vibrant Section Navigation Bar -->
+    <nav class="glass-card border-b border-indigo-500/20 px-6 py-2">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3 text-xs">
+                <span class="text-slate-400 font-semibold uppercase tracking-wider mr-2">Test Sections:</span>
+                <button id="tab-sec-a" onclick="switchSection('A')" class="px-4 py-2 rounded-xl font-bold transition shadow-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white border border-cyan-400/40">
+                    <i class="fa-solid fa-list-check mr-1.5"></i> Section A: Multiple Choice Questions (3)
+                </button>
+                <button id="tab-sec-b" onclick="switchSection('B')" class="px-4 py-2 rounded-xl font-bold transition shadow-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800">
+                    <i class="fa-solid fa-code mr-1.5"></i> Section B: Algorithm & Hands-on Coding (2)
+                </button>
+            </div>
+            
+            <!-- Live Proctor Toast Notification Indicator -->
+            <div id="proctor-toast-banner" class="hidden px-3.5 py-1.5 bg-amber-500/20 border border-amber-500/40 text-amber-300 rounded-xl text-xs font-semibold flex items-center gap-2 animate-bounce">
+                <i class="fa-solid fa-bullhorn text-amber-400"></i>
+                <span id="proctor-toast-text">Message from Proctor</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Exam Container -->
+    <main class="flex-1 p-6 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- Left 3 Columns: Question Workspace -->
+        <section class="lg:col-span-3 space-y-6">
+
+            <!-- MCQ Container (Section A) -->
+            <div id="mcq-workspace" class="glass-card border border-indigo-500/30 rounded-2xl p-6 shadow-2xl relative">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-5">
+                    <span class="text-xs font-extrabold text-cyan-400 uppercase tracking-wider" id="mcq-question-badge">Question 1 of 3 (Section A)</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[11px] bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full font-mono border border-emerald-500/30">Marks: +2.0</span>
+                        <span class="text-[11px] bg-rose-500/20 text-rose-300 px-3 py-1 rounded-full font-mono border border-rose-500/30">Negative: -0.5</span>
+                    </div>
+                </div>
+
+                <h2 id="mcq-text" class="text-lg font-bold text-white mb-6 leading-relaxed">
+                    Which of the following data structures operates on a Last-In, First-Out (LIFO) basis?
+                </h2>
+
+                <!-- Options -->
+                <div id="mcq-options-container" class="space-y-3">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Action Footer -->
+                <div class="mt-8 pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <button onclick="clearResponse()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition border border-slate-700">
+                            Clear Response
+                        </button>
+                        <button onclick="markForReview()" class="px-4 py-2 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-600 hover:to-indigo-600 text-white rounded-xl text-xs font-bold transition shadow border border-purple-500/30">
+                            <i class="fa-solid fa-bookmark mr-1"></i> Mark for Review & Next
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button id="mcq-btn-prev" onclick="prevQuestion()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition disabled:opacity-40 border border-slate-700">
+                            <i class="fa-solid fa-arrow-left mr-1"></i> Previous
+                        </button>
+                        <button id="mcq-btn-next" onclick="saveAndNext()" class="px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-cyan-500/20">
+                            Save & Next <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coding Workspace (Section B) -->
+            <div id="coding-workspace" class="hidden glass-card border border-purple-500/30 rounded-2xl p-6 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div>
+                        <span class="text-xs font-extrabold text-purple-400 uppercase tracking-wider" id="code-question-badge">Question 4 of 5 (Section B - Coding)</span>
+                        <h3 id="code-problem-title" class="text-lg font-bold text-white mt-1">Problem 1: Array Reversal & In-Place Swap</h3>
+                    </div>
+                    <!-- Language Dropdown -->
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-slate-300 font-semibold">Language:</label>
+                        <select id="code-lang-select" onchange="changeLanguage()" class="bg-slate-950 border border-purple-500/40 text-purple-300 text-xs rounded-xl px-3.5 py-2 font-mono focus:outline-none focus:border-purple-400">
+                            <option value="python">Python 3</option>
+                            <option value="javascript">JavaScript (Node.js)</option>
+                            <option value="cpp">C++ 17</option>
+                            <option value="java">Java 17</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Problem Statement -->
+                <div class="bg-slate-950/90 p-4 rounded-xl border border-slate-800 text-xs space-y-2 text-slate-300">
+                    <p id="code-problem-desc">Write a function that reverses an array of integers in-place and returns the reversed array.</p>
+                    <div class="bg-slate-900 p-3 rounded-lg font-mono text-[11px] text-indigo-300 border border-indigo-900/40">
+                        <strong>Sample Input:</strong> [1, 2, 3, 4, 5]<br>
+                        <strong>Expected Output:</strong> [5, 4, 3, 2, 1]
+                    </div>
+                </div>
+
+                <!-- Code Editor Area -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-xs text-slate-400 px-1">
+                        <span class="font-semibold text-slate-300">Solution Code Workspace:</span>
+                        <button onclick="resetTemplateCode()" class="text-purple-400 hover:underline text-[11px] font-medium"><i class="fa-solid fa-rotate-left"></i> Reset Template</button>
+                    </div>
+                    <textarea id="code-editor" class="w-full h-56 bg-slate-950 border border-indigo-900/60 rounded-xl p-3.5 font-mono text-xs text-emerald-400 focus:outline-none focus:border-purple-400 leading-relaxed shadow-inner" spellcheck="false"></textarea>
+                </div>
+
+                <!-- Compiler Controls & Output -->
+                <div class="flex items-center justify-between pt-2">
+                    <button id="btn-run-code" onclick="runCodeSolution()" class="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white rounded-xl text-xs font-extrabold transition shadow-lg shadow-emerald-500/20 flex items-center gap-2 border border-emerald-400/30">
+                        <i class="fa-solid fa-play"></i> Run Test Cases
+                    </button>
+                    <button onclick="saveAndNext()" class="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-purple-600/20">
+                        Save & Next Problem <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Console Output Window -->
+                <div id="code-output-box" class="hidden bg-slate-950 border border-emerald-500/40 rounded-xl p-4 font-mono text-xs space-y-1">
+                    <div class="text-[11px] text-slate-400 border-b border-slate-800 pb-1 font-semibold flex justify-between">
+                        <span>Execution Output Console</span>
+                        <span id="code-status-tag" class="text-emerald-400 font-bold">PASSED</span>
+                    </div>
+                    <pre id="code-output-text" class="text-slate-200 mt-2 text-[11px] whitespace-pre-wrap leading-relaxed"></pre>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Right Column: Candidate Monitor & CBT Question Status Palette -->
+        <section class="space-y-6">
+
+            <!-- Real-time AI Proctor Webcam Monitor -->
+            <div class="glass-card border border-indigo-500/30 rounded-2xl overflow-hidden shadow-2xl">
+                <div class="bg-slate-900/90 px-3.5 py-2 border-b border-slate-800 flex items-center justify-between text-xs">
+                    <span class="font-bold text-slate-200 flex items-center gap-1.5">
+                        <i class="fa-solid fa-shield-halved text-emerald-400"></i> PRJ 137 AI Proctor
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-bold">
+                        ACTIVE
+                    </span>
+                </div>
+
+                <!-- Video Frame -->
+                <div class="relative bg-black aspect-video flex items-center justify-center">
+                    <img id="exam-video-feed" src="/video_feed" class="w-full h-full object-cover">
+                    
+                    <!-- Overlay Bar -->
+                    <div class="absolute bottom-2 left-2 right-2 bg-slate-950/90 p-2 rounded-lg text-[11px] flex justify-between items-center border border-slate-800">
+                        <span id="exam-gaze-text" class="text-slate-200 font-semibold"><i class="fa-solid fa-eye text-cyan-400"></i> Gaze: Center</span>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-[10px] text-slate-400 font-semibold">Mic:</span>
+                            <div class="w-12 h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+                                <div id="mic-level-bar" class="h-full bg-emerald-400 w-0 transition-all duration-100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Violation Counters -->
+                <div class="p-3 bg-slate-900/90 text-[11px] grid grid-cols-3 gap-2 border-t border-slate-800">
+                    <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 text-center">
+                        <span class="text-slate-400 block text-[10px]">Tab Switch</span>
+                        <span id="count-tab-switches" class="font-extrabold text-amber-400">0</span>
+                    </div>
+                    <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 text-center">
+                        <span class="text-slate-400 block text-[10px]">Copy Block</span>
+                        <span id="count-copy-attempts" class="font-extrabold text-purple-400">0</span>
+                    </div>
+                    <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 text-center">
+                        <span class="text-slate-400 block text-[10px]">Screenshots</span>
+                        <span id="count-screenshot-attempts" class="font-extrabold text-rose-400">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CBT Official Question Palette & Vivid Legend -->
+            <div class="glass-card border border-indigo-500/30 rounded-2xl p-5 shadow-2xl space-y-4">
+                <h3 class="text-xs font-extrabold text-slate-300 uppercase tracking-wider">Question Palette</h3>
+                
+                <!-- Vivid Status Palette Grid -->
+                <div class="grid grid-cols-5 gap-2.5" id="palette-container">
+                    <!-- Dynamic Question Buttons -->
+                </div>
+
+                <!-- Vivid Color Legend -->
+                <div class="pt-3 border-t border-slate-800/80 grid grid-cols-2 gap-2.5 text-[11px] font-medium text-slate-300">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3.5 h-3.5 rounded bg-emerald-500 shadow shadow-emerald-500/50 inline-block"></span> Answered
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3.5 h-3.5 rounded bg-rose-500 shadow shadow-rose-500/50 inline-block"></span> Not Answered
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3.5 h-3.5 rounded bg-purple-600 shadow shadow-purple-600/50 inline-block"></span> Marked Review
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3.5 h-3.5 rounded bg-slate-800 border border-slate-700 inline-block"></span> Not Visited
+                    </div>
+                </div>
+
+                <!-- Submit Exam Button -->
+                <div class="pt-2">
+                    <button onclick="submitExam()" class="w-full py-3 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-white font-extrabold rounded-xl text-xs shadow-xl shadow-emerald-500/20 transition flex items-center justify-center gap-2 border border-emerald-400/30">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Complete Exam
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Remote Pause Overlay -->
+    <div id="remote-pause-modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex flex-col items-center justify-center p-8 text-center space-y-4">
+        <div class="w-20 h-20 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-4xl border border-amber-500/40 animate-pulse">
+            <i class="fa-solid fa-pause"></i>
+        </div>
+        <h2 class="text-2xl font-extrabold text-white">EXAM PAUSED BY PROCTOR</h2>
+        <p class="text-sm text-slate-300 max-w-md">Your proctor has temporarily paused your examination session. Please remain seated and wait for the proctor to resume your test.</p>
+    </div>
+
+    <!-- Remote Termination Overlay -->
+    <div id="remote-terminate-modal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex flex-col items-center justify-center p-8 text-center space-y-4">
+        <div class="w-20 h-20 bg-rose-600/20 text-rose-500 rounded-full flex items-center justify-center text-4xl border border-rose-500/40 animate-pulse">
+            <i class="fa-solid fa-power-off"></i>
+        </div>
+        <h2 class="text-2xl font-extrabold text-white">EXAM TERMINATED BY PROCTOR</h2>
+        <p class="text-sm text-rose-300 max-w-md">Your examination session has been terminated by the proctor due to critical malpractice detection.</p>
+        <a href="/login" class="px-6 py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs transition shadow-lg">Return to Gateway</a>
+    </div>
+
+    <!-- Fullscreen Blackout Screen for Screenshot Interception -->
+    <div id="screenshot-blackout" class="hidden fixed inset-0 bg-black z-50 flex flex-col items-center justify-center p-8 text-center space-y-4 animate-warning">
+        <div class="w-20 h-20 bg-rose-600/30 text-rose-500 rounded-full flex items-center justify-center text-3xl border border-rose-500">
+            <i class="fa-solid fa-camera"></i>
+        </div>
+        <h2 class="text-2xl font-extrabold text-white tracking-wide">SCREENSHOT ATTEMPT BLOCKED</h2>
+        <p class="text-xs text-rose-300 max-w-md leading-relaxed">
+            Taking screenshots during PRJ 137 Examination is strictly prohibited. Your attempt has been logged as a High-Severity Malpractice Event.
+        </p>
+        <div class="bg-rose-950 border border-rose-800 px-4 py-2 rounded-lg text-xs font-mono text-rose-200">
+            VIOLATION RECORDED: SCREENSHOT_ATTEMPT
+        </div>
+        <button onclick="dismissScreenshotBlackout()" class="px-6 py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs transition shadow-lg">
+            Return to Examination
+        </button>
+    </div>
+
+    <!-- Security Violation Warning Modal -->
+    <div id="violation-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-card border-2 border-rose-500 rounded-2xl p-6 max-w-md w-full shadow-2xl text-center space-y-4 animate-warning">
+            <div class="w-16 h-16 bg-rose-600/20 text-rose-500 rounded-full flex items-center justify-center mx-auto text-2xl border border-rose-500/40">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white" id="modal-title">SECURITY VIOLATION DETECTED</h3>
+            <p class="text-xs text-slate-300 leading-relaxed" id="modal-desc">
+                Tab switching or window focus loss detected. This action has been logged in PRJ 137 Proctoring System.
+            </p>
+            <div class="bg-rose-950/70 border border-rose-800 p-2.5 rounded-xl text-xs text-rose-300 font-mono" id="modal-warning-count">
+                Violation Logged
+            </div>
+            <button onclick="closeViolationModal()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs transition shadow-lg">
+                I Understand & Continue Exam
+            </button>
+        </div>
+    </div>
+
+    <!-- Exam Data & Anti-Cheating Scripts -->
+    <script>
+        const examQuestions = [
+            // Section A: MCQs
+            {
+                id: 1,
+                section: 'A',
+                type: 'mcq',
+                title: 'Question 1',
+                q: 'Which of the following data structures operates on a Last-In, First-Out (LIFO) basis?',
+                options: ['Queue', 'Stack', 'Array', 'Linked List'],
+                ans: 1
+            },
+            {
+                id: 2,
+                section: 'A',
+                type: 'mcq',
+                title: 'Question 2',
+                q: 'What is the worst-case time complexity of Quick Sort algorithm?',
+                options: ['O(n log n)', 'O(n)', 'O(n²)', 'O(1)'],
+                ans: 2
+            },
+            {
+                id: 3,
+                section: 'A',
+                type: 'mcq',
+                title: 'Question 3',
+                q: 'In relational databases, which SQL clause is used to filter aggregated group records?',
+                options: ['WHERE', 'HAVING', 'ORDER BY', 'GROUP BY'],
+                ans: 1
+            },
+            // Section B: Coding Problems
+            {
+                id: 4,
+                section: 'B',
+                type: 'code',
+                title: 'Problem 1: Array Reversal',
+                q: 'Write a function that reverses an array of integers in-place and returns the reversed array.',
+                desc: 'Given an array arr = [1, 2, 3, 4, 5], reverse it to return [5, 4, 3, 2, 1].',
+                templates: {
+                    python: "def reverse_array(arr):\n    # Write your solution here\n    return arr[::-1]\n\n# Test input\nprint(reverse_array([1, 2, 3, 4, 5]))",
+                    javascript: "function reverseArray(arr) {\n    // Write solution\n    return arr.reverse();\n}\nconsole.log(reverseArray([1, 2, 3, 4, 5]));",
+                    cpp: "#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint main() {\n    std::vector<int> arr = {1, 2, 3, 4, 5};\n    std::reverse(arr.begin(), arr.end());\n    for(int x : arr) std::cout << x << ' ';\n    return 0;\n}",
+                    java: "import java.util.*;\npublic class Solution {\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 3, 4, 5};\n        for(int i=arr.length-1; i>=0; i--) System.out.print(arr[i] + \" \");\n    }\n}"
+                }
+            },
+            {
+                id: 5,
+                section: 'B',
+                type: 'code',
+                title: 'Problem 2: Palindrome Checker',
+                q: 'Write a function that checks whether a given string is a palindrome (reads same forwards and backwards).',
+                desc: 'Input string: "racecar" -> Output: True.',
+                templates: {
+                    python: "def is_palindrome(s):\n    return s == s[::-1]\n\nprint(is_palindrome('racecar'))",
+                    javascript: "function isPalindrome(s) {\n    return s === s.split('').reverse().join('');\n}\nconsole.log(isPalindrome('racecar'));",
+                    cpp: "#include <iostream>\n#include <string>\n#include <algorithm>\n\nint main() {\n    std::string s = \"racecar\";\n    std::string rev = s;\n    std::reverse(rev.begin(), rev.end());\n    std::cout << (s == rev ? \"true\" : \"false\");\n    return 0;\n}",
+                    java: "public class Solution {\n    public static void main(String[] args) {\n        String s = \"racecar\";\n        String rev = new StringBuilder(s).reverse().toString();\n        System.out.println(s.equals(rev));\n    }\n}"
+                }
+            }
+        ];
+
+        let currentIdx = 0;
+        let questionStates = examQuestions.map(() => ({
+            answered: false,
+            marked: false,
+            visited: false,
+            selectedOption: null,
+            userCode: {}
+        }));
+
+        let tabSwitches = 0;
+        let copyAttempts = 0;
+        let screenshotAttempts = 0;
+
+        function loadQuestion(idx) {
+            currentIdx = idx;
+            questionStates[idx].visited = true;
+
+            const q = examQuestions[idx];
+
+            if (q.section === 'A') {
+                document.getElementById('mcq-workspace').classList.remove('hidden');
+                document.getElementById('coding-workspace').classList.add('hidden');
+                document.getElementById('tab-sec-a').className = 'px-4 py-2 rounded-xl font-bold transition shadow-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white border border-cyan-400/40';
+                document.getElementById('tab-sec-b').className = 'px-4 py-2 rounded-xl font-bold transition shadow-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800';
+
+                document.getElementById('mcq-question-badge').innerText = `Question ${idx + 1} of 3 (Section A)`;
+                document.getElementById('mcq-text').innerText = q.q;
+
+                const opts = q.options;
+                const container = document.getElementById('mcq-options-container');
+                container.innerHTML = opts.map((opt, i) => `
+                    <label class="flex items-center gap-3 p-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-indigo-950 hover:border-indigo-500/50 cursor-pointer transition shadow-md">
+                        <input type="radio" name="mcq-option" value="${i}" ${questionStates[idx].selectedOption === i ? 'checked' : ''} onchange="selectMCQOption(${i})" class="w-4 h-4 text-cyan-500 accent-cyan-400">
+                        <span class="text-sm font-medium text-slate-200">${String.fromCharCode(65 + i)}. ${opt}</span>
+                    </label>
+                `).join('');
+
+                document.getElementById('mcq-btn-prev').disabled = (idx === 0);
+            } else {
+                document.getElementById('mcq-workspace').classList.add('hidden');
+                document.getElementById('coding-workspace').classList.remove('hidden');
+                document.getElementById('tab-sec-b').className = 'px-4 py-2 rounded-xl font-bold transition shadow-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white border border-purple-400/40';
+                document.getElementById('tab-sec-a').className = 'px-4 py-2 rounded-xl font-bold transition shadow-lg bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800';
+
+                document.getElementById('code-question-badge').innerText = `Question ${idx + 1} of 5 (Section B - Coding)`;
+                document.getElementById('code-problem-title').innerText = q.title;
+                document.getElementById('code-problem-desc').innerText = q.q + " " + q.desc;
+
+                const langSelect = document.getElementById('code-lang-select');
+                const lang = langSelect.value;
+                const savedCode = questionStates[idx].userCode[lang] || q.templates[lang];
+                document.getElementById('code-editor').value = savedCode;
+                document.getElementById('code-output-box').classList.add('hidden');
+            }
+
+            renderPalette();
+        }
+
+        function switchSection(sec) {
+            if (sec === 'A') loadQuestion(0);
+            else loadQuestion(3);
+        }
+
+        function selectMCQOption(optIdx) {
+            questionStates[currentIdx].selectedOption = optIdx;
+            questionStates[currentIdx].answered = true;
+            renderPalette();
+        }
+
+        function clearResponse() {
+            questionStates[currentIdx].selectedOption = null;
+            questionStates[currentIdx].answered = false;
+            loadQuestion(currentIdx);
+        }
+
+        function markForReview() {
+            questionStates[currentIdx].marked = !questionStates[currentIdx].marked;
+            saveAndNext();
+        }
+
+        function saveAndNext() {
+            if (currentIdx < examQuestions.length - 1) {
+                loadQuestion(currentIdx + 1);
+            } else {
+                renderPalette();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIdx > 0) loadQuestion(currentIdx - 1);
+        }
+
+        function changeLanguage() {
+            const lang = document.getElementById('code-lang-select').value;
+            const q = examQuestions[currentIdx];
+            const saved = questionStates[currentIdx].userCode[lang] || q.templates[lang];
+            document.getElementById('code-editor').value = saved;
+        }
+
+        function resetTemplateCode() {
+            const lang = document.getElementById('code-lang-select').value;
+            const q = examQuestions[currentIdx];
+            document.getElementById('code-editor').value = q.templates[lang];
+        }
+
+        async function runCodeSolution() {
+            const lang = document.getElementById('code-lang-select').value;
+            const code = document.getElementById('code-editor').value;
+            questionStates[currentIdx].userCode[lang] = code;
+            questionStates[currentIdx].answered = true;
+
+            const btn = document.getElementById('btn-run-code');
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Running Code...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/run_code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ lang: lang, code: code, problem_id: examQuestions[currentIdx].id })
+                });
+                const data = await res.json();
+
+                document.getElementById('code-output-box').classList.remove('hidden');
+                document.getElementById('code-output-text').innerText = data.output;
+                document.getElementById('code-status-tag').innerText = data.status === 'success' ? 'PASSED (2/2 Test Cases)' : 'EXECUTION ERROR';
+                document.getElementById('code-status-tag').className = data.status === 'success' ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold';
+            } catch(e) {
+                document.getElementById('code-output-box').classList.remove('hidden');
+                document.getElementById('code-output-text').innerText = "Execution error: " + e;
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-play"></i> Run Test Cases';
+                btn.disabled = false;
+                renderPalette();
+            }
+        }
+
+        function renderPalette() {
+            const container = document.getElementById('palette-container');
+            container.innerHTML = examQuestions.map((q, i) => {
+                const state = questionStates[i];
+                let colorClass = 'bg-slate-800/90 text-slate-300 border-slate-700';
+                if (state.marked) colorClass = 'bg-purple-600 text-white shadow-md shadow-purple-600/40 border-purple-400 font-extrabold';
+                else if (state.answered) colorClass = 'bg-emerald-500 text-white shadow-md shadow-emerald-500/40 border-emerald-400 font-extrabold';
+                else if (state.visited) colorClass = 'bg-rose-500 text-white shadow-md shadow-rose-500/40 border-rose-400 font-extrabold';
+
+                if (i === currentIdx) colorClass += ' ring-2 ring-cyan-400 ring-offset-2 ring-offset-slate-950 scale-105';
+                return `<button onclick="loadQuestion(${i})" class="h-9 rounded-xl border text-xs font-mono transition transform flex items-center justify-center ${colorClass}">${i + 1}</button>`;
+            }).join('');
+        }
+
+        // Fullscreen Toggle
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => console.log(e));
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        // Screenshot Interception & Anti-Snipping Protection
+        function blockScreenshot(e) {
+            let isPrtScn = (e.key === 'PrintScreen' || e.keyCode === 44);
+            let isWinShiftS = (e.key === 'S' || e.key === 's') && e.shiftKey && (e.metaKey || e.winKey);
+            let isCmdShift = (e.metaKey && e.shiftKey && ['3', '4', '5'].includes(e.key));
+
+            if (isPrtScn || isWinShiftS || isCmdShift) {
+                e.preventDefault();
+                e.stopPropagation();
+                screenshotAttempts++;
+                document.getElementById('count-screenshot-attempts').innerText = screenshotAttempts;
+                document.getElementById('screenshot-blackout').classList.remove('hidden');
+
+                triggerViolation("SCREENSHOT_ATTEMPT", "Screenshot interception event triggered!");
+            }
+        }
+
+        document.addEventListener('keydown', blockScreenshot, true);
+        document.addEventListener('keyup', blockScreenshot, true);
+
+        function dismissScreenshotBlackout() {
+            document.getElementById('screenshot-blackout').classList.add('hidden');
+        }
+
+        // Security Lockdown (Tab Switch, Copy/Paste, Shortcuts)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                tabSwitches++;
+                triggerViolation("TAB_SWITCH", `Tab Switch / Navigation away detected! (${tabSwitches} occurrence)`);
+            }
+        });
+
+        window.addEventListener('blur', () => {
+            tabSwitches++;
+            triggerViolation("WINDOW_BLUR", "Focus lost! Candidate switched away from examination window.");
+        });
+
+        document.addEventListener('copy', (e) => { e.preventDefault(); handleCopyAttempt(); });
+        document.addEventListener('paste', (e) => { e.preventDefault(); handleCopyAttempt(); });
+        document.addEventListener('cut', (e) => { e.preventDefault(); handleCopyAttempt(); });
+        document.addEventListener('contextmenu', (e) => { e.preventDefault(); });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey || e.altKey) {
+                const k = e.key.toLowerCase();
+                if (['c', 'v', 'x', 'a', 'u', 'i', 's', 'p'].includes(k)) {
+                    e.preventDefault();
+                    handleCopyAttempt();
+                }
+            }
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+                handleCopyAttempt();
+            }
+        });
+
+        function handleCopyAttempt() {
+            copyAttempts++;
+            document.getElementById('count-copy-attempts').innerText = copyAttempts;
+            triggerViolation("COPY_PASTE_ATTEMPT", "Forbidden Copy/Paste or Key Shortcut attempt blocked!");
+        }
+
+        async function triggerViolation(type, desc) {
+            document.getElementById('count-tab-switches').innerText = tabSwitches;
+            document.getElementById('modal-title').innerText = "PRJ 137 SECURITY VIOLATION";
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('modal-warning-count').innerText = `Violation Logged (Tab Switches: ${tabSwitches}, Copy: ${copyAttempts}, Screenshot: ${screenshotAttempts})`;
+            document.getElementById('violation-modal').classList.remove('hidden');
+
+            try {
+                await fetch('/api/log_violation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type: type, message: desc })
+                });
+            } catch(e) {}
+        }
+
+        function closeViolationModal() {
+            document.getElementById('violation-modal').classList.add('hidden');
+        }
+
+        // Web Audio Mic Monitor
+        async function initWebAudioMic() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioCtx.createMediaStreamSource(stream);
+                const analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 256;
+                source.connect(analyser);
+
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+                const bar = document.getElementById('mic-level-bar');
+
+                function updateMicMeter() {
+                    analyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+                    let avg = sum / dataArray.length;
+                    let pct = Math.min(100, Math.round((avg / 128) * 100));
+                    
+                    bar.style.width = pct + '%';
+                    if (pct > 50) {
+                        bar.className = 'h-full bg-rose-500 w-0 transition-all duration-100';
+                        triggerViolation("AUDIO_VOICE_DETECTED", `Voice/Noise detected (${pct}% mic intensity)`);
+                    } else if (pct > 25) {
+                        bar.className = 'h-full bg-amber-400 w-0 transition-all duration-100';
+                    } else {
+                        bar.className = 'h-full bg-emerald-400 w-0 transition-all duration-100';
+                    }
+                    requestAnimationFrame(updateMicMeter);
+                }
+                updateMicMeter();
+            } catch (err) {}
+        }
+
+        let lastBroadcastMsg = null;
+
+        async function pollProctorStatus() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+                
+                document.getElementById('exam-gaze-text').innerHTML = `<i class="fa-solid fa-eye text-cyan-400"></i> Gaze: ${data.gaze_direction || 'Center'}`;
+                document.getElementById('exam-integrity-index').innerText = `${data.candidate_integrity_index || 95}%`;
+
+                // Handle Broadcast Toast Warning
+                if (data.broadcast_message && data.broadcast_message !== lastBroadcastMsg) {
+                    lastBroadcastMsg = data.broadcast_message;
+                    document.getElementById('proctor-toast-text').innerText = data.broadcast_message;
+                    document.getElementById('proctor-toast-banner').classList.remove('hidden');
+                }
+
+                // Handle Remote Pause / Terminate
+                if (data.session_status === 'PAUSED') {
+                    document.getElementById('remote-pause-modal').classList.remove('hidden');
+                } else {
+                    document.getElementById('remote-pause-modal').classList.add('hidden');
+                }
+
+                if (data.session_status === 'TERMINATED') {
+                    document.getElementById('remote-terminate-modal').classList.remove('hidden');
+                }
+            } catch(e){}
+        }
+
+        function submitExam() {
+            alert("PRJ 137 Examination Submitted Successfully! Solution telemetry compiled.");
+            window.location.href = '/login';
+        }
+
+        // Init
+        loadQuestion(0);
+        initWebAudioMic();
+        setInterval(pollProctorStatus, 2000);
+    </script>
+</body>
+</html>

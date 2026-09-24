@@ -1,0 +1,13 @@
+base_weights: C:\Users\roope\.gemini\antigravity\scratch\online-exam-proctor\models/yolov8n.pt
+batch_size: 8
+best_model_path: C:\Users\roope\.gemini\antigravity\scratch\online-exam-proctor\models\object_detection\best.pt
+device: cpu
+epochs: 3
+image_size: 640
+learning_rate: 0.005
+model_name: ExamGuard-YOLOv8n-Proctoring
+optimizer: SGD
+torch_version: !!python/object/new:torch.torch_version.TorchVersion
+- 2.13.0+cpu
+training_date: '2026-09-24T20:24:45.000125'
+training_time_seconds: 101.33

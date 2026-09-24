@@ -1,0 +1,36 @@
+# ExamGuard AI (PRJ 137) - Proctoring Behavior & Risk Engine Configuration
+# Configurable weights, temporal debounce windows, and risk indicator thresholds.
+# These values are configurable operational baselines and not deterministic proofs of cheating.
+
+event_weights:
+  FACE_MISSING: 35.0
+  MULTIPLE_FACES: 45.0
+  IDENTITY_MISMATCH: 50.0
+  PHONE_DETECTED: 40.0
+  PROHIBITED_OBJECT_DETECTED: 30.0
+  PERSON_DETECTED: 25.0
+  LOOKING_AWAY: 15.0
+  HEAD_POSE_ANOMALY: 20.0
+  MOUTH_ACTIVITY: 10.0
+  VOICE_ACTIVITY: 15.0
+  BROWSER_TAB_SWITCH: 20.0
+  CLIPBOARD_COPY_PASTE: 15.0
+  SCREENSHOT_INTERCEPT: 25.0
+
+temporal_debounce:
+  FACE_MISSING_MIN_SECONDS: 4.0
+  MULTIPLE_FACES_MIN_FRAMES: 5
+  LOOKING_AWAY_MIN_SECONDS: 2.5
+  HEAD_POSE_MIN_SECONDS: 2.0
+  ALERT_COOLDOWN_SECONDS: 8.0
+
+risk_classification_thresholds:
+  LOW_MAX: 24.0
+  MODERATE_MAX: 49.0
+  HIGH_MAX: 74.0
+  CRITICAL_MIN: 75.0
+
+score_terminology:
+  metric_name: "proctoring_risk_indicator"
+  display_label: "Candidate Integrity Risk Indicator"
+  range: [0, 100]
